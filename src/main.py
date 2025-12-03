@@ -1,4 +1,5 @@
 from classes.Data_preparation import DataPreparation
+from classes.Exploratory_analysis import ExploratoryAnalysis
 from utils.Helper import Load_checkpoint, Save_checkpoint, StepConfig
 from utils.logging_config import get_logger
 from pyparsing import Any
@@ -21,6 +22,14 @@ def main():
         )
         step_one_data = step_one.get_results()
         Save_checkpoint(CHECKPOINT_DIR, "step_one", logger, step_one_data)
+    
+    step_two_data = Load_checkpoint(CHECKPOINT_DIR, "step_two", logger)
+    if step_two_data is None:
+        logger.info("Running Step Two...")
+        step_two = ExploratoryAnalysis(StepConfig("Step 2", "Exploratory Analysis"))
+        step_two.execute(step_one_data)
+        step_two_data = step_two.get_results()
+        Save_checkpoint(CHECKPOINT_DIR, "step_two", logger, step_two_data)
     
     logger.info("Main process completed.")
 

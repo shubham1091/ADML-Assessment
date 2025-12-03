@@ -2,6 +2,9 @@ from typing import Any, Dict, Optional
 
 import pandas as pd
 from utils.Helper import DataValidator, FeatureScaler, PlantSelector, Step, StepConfig
+from utils.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class DataPreparation(Step):
@@ -26,12 +29,12 @@ class DataPreparation(Step):
         def _safe_len(obj):
             return len(obj) if obj is not None else 0
 
-        print("Data Preparation Summary:")
-        print(f"  - Demand scenarios: {_safe_len(self.demand_df_clean)}")
-        print(f"  - Plants: {_safe_len(self.plants_df_filtered)}")
-        print(f"  - Cost records: {_safe_len(self.costs_df_filtered)}")
-        print(f"  - Demand features: {_safe_len(self.demand_features)}")
-        print(f"  - Plant features: {_safe_len(self.plant_features)}")
+        logger.info("Data Preparation Summary:")
+        logger.info(f"  - Demand scenarios: {_safe_len(self.demand_df_clean)}")
+        logger.info(f"  - Plants: {_safe_len(self.plants_df_filtered)}")
+        logger.info(f"  - Cost records: {_safe_len(self.costs_df_filtered)}")
+        logger.info(f"  - Demand features: {_safe_len(self.demand_features)}")
+        logger.info(f"  - Plant features: {_safe_len(self.plant_features)}")
     
     def get_results(self) -> Dict[str, Any]:
         return {
